@@ -1,137 +1,265 @@
-# Assignment for the lesson 1 of the Web Development course
+Voici une version mise à jour du **README.md**, en tenant compte de la suppression de la cible `watch` et en apportant quelques améliorations supplémentaires pour rendre le document encore plus clair et complet :
 
-Autumn 2024.
+---
 
-## Planning
+# Project README
 
-- 04/10/2024 : Lesson 1 (Basic HTML+CSS) + Lesson 2 (HTML forms, CSS preprocessors)
+## Overview
 
-Assignment : "TP Basic HTML + Forms + SCSS" (this one)
+This project implements a web-based application using a Python backend to serve the pages, and SCSS for styling. The project also showcases the use of a `Makefile` to automate tasks such as dependency management, SCSS compilation, and running the server. The goal is to simplify the development workflow by automating common tasks.
 
-The assignment is to be submitted for Monday oct. 21 2024 in the evening.
+### Project Requirements and Objectives
 
-## Submission procedure
+The project demonstrates the following:
 
-- Submit your assignment on the eCampus platform : https://ecampus.emse.fr/mod/assign/view.php?id=29838
-- Compress your projet directory into an archive format (ZIP, 7z, tar, ...) and upload a single file
-- Due to the number of students in the lecture, you have to work in groups of 2 or 3 persons
+- **Dependency Management**: Automating the installation of required dependencies.
+- **Compilation**: Using `Makefile` to compile SCSS into CSS.
+- **Project Version Management**: Managing project versions and ensuring that the right dependencies are installed.
+- **Packaging**: Simulating packaging tasks through the use of build automation tools like `Makefile`.
 
+---
 
-## Instructions
+## Project Structure
 
-You have to integrate (write the HTML and SCSS code) 2 web pages, based on a provided mockup.
+Here's an overview of the project directory:
 
-The two pages are :
+```
+/project-directory
+├── /assets
+│   └── /stylesheets
+├── /mockups
+├── .gitignore
+├── README.md
+├── compile_css.sh
+├── login.html
+├── makefile
+├── requirements.txt
+├── run_server.py
+├── setup_dependencies.sh
+```
 
-- About Musicca
-- Login page
+- **/assets/stylesheets**: Directory where the compiled CSS file (`output.css`) is saved.
+- **/mockups**: Contains the design mockups for the web pages.
+- **.gitignore**: Specifies files and directories to be ignored by Git.
+- **README.md**: Documentation for the project.
+- **compile_css.sh**: A script that compiles SCSS into CSS.
+- **login.html**: The HTML file for the login page.
+- **Makefile**: Defines automation tasks such as dependency installation, SCSS compilation, and server running.
+- **requirements.txt**: Contains a list of Python dependencies.
+- **run_server.py**: A Python script used to run the server and serve the HTML pages.
+- **setup_dependencies.sh**: A script that installs the necessary system dependencies (Ruby, Python, Sass).
 
-In order to do so, you will start with the template that is provided to you in the directory `integration`.
+---
 
-The goal is to produce 2 HTML documents, one for each web page, and 1 SCSS document for the global stylesheet of your website.
+## Setup Instructions
 
+### Step 1: Install System Dependencies
 
-### Getting the webpage running 
+You need to install several system dependencies for the project to work:
 
-- You need to run a small web server, use the script `./run_server.py` at the root of the repository. It uses 
-  python 3, make sure you have python 3 installed on you machine as it's a prerequisite for this course.
-- Run the `./compile_css.sh` script to transform the SCSS source into CSS
-- Access your webpage with the URLs http://localhost:8000/integration/about.html and http://localhost:8000/integration/login.html 
+1. **Install Ruby, Python, and Pip**:
 
+   ```bash
+   sudo apt update
+   sudo apt install -y ruby-full python3 python3-pip
+   ```
 
-### Mockups
+2. **Install Sass**:
 
-The mockups are provided to you, thanks to the work of a web graphic designer and an UX designer.
-Your job is to make the technical integration of the given mockups.
+   Sass is needed to compile SCSS to CSS.
 
-You will find them in the `mockups` directory :
+   ```bash
+   sudo gem install sass
+   ```
 
-- `about_musicca_mockup.png` and `login_mockup.png` an image representation of what your web pages should look like
-- `about_musicca_mockup_annotated.pdf` and `login_mockup_annotated.pdf` the same mockup annotated with useful data for the integration
-- `login_mockup_input_focus.png` and `login_mockup_input_invalid.png` show you specific view of 
-  the interface depending on user interaction with the form
-- `/variables.md` additionnal data that is not present in the annotated mockup
+3. **Install Python dependencies**:
 
+   Install the required Python dependencies listed in the `requirements.txt` file:
 
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### Integration files
+### Step 2: Run the Setup Script
 
-The integration skeleton has already be made for you, it is in the folder `./integration`.
-You will find 2 HTML templates, already configured with the correct `<head>` section (especially
-the link to the stylesheet and the fonts is done for you).
+To simplify the process of setting up dependencies, you can run the `setup_dependencies.sh` script. This will install both the system and Python dependencies:
 
-You need to write the HTML in the documents `./about.html` and `login.html` and the stylesheet `./style.scss`,
-in order to get a webpage that follow the mockup specifications.
+```bash
+./setup_dependencies.sh
+```
 
-Write your code following the best practices I showed you in the demo example, in particular :
-- Give clear and logical (from a semantical point of view) class names to your elements (that 
-  is the same as naming correctly your variables)
-- Be consistent in the way you write your code : indentation, line breaks, upper/lowercase are important
-  and the code must be nice to read.
+### Step 3: Start the Python Server
 
-### SCSS to CSS
+To serve the web pages locally, run the Python server:
 
-I'm asking you to write SCSS code, but you need to transpile it to CSS for the website to work. For this you
-need to have `node`, `npm` and `sass` installed (prerequisite for this course, described in the slides https://emse1.gitlab.io/cours-dev-web-2/3_CSS_Preprocessor/presentation.html#7)
+```bash
+python3 run_server.py
+```
 
-You can run the script `./compile_css.sh` when you start working on your project. This script will run in 
-the background, watch for changes in the file `integration/style.scss` and transpile automatically to 
-`integration/assets/stylesheets/output.css`.
+The server will run on `http://localhost:8000`, where you can view the pages:
+- [About Musicca](http://localhost:8000/integration/about.html)
+- [Login Page](http://localhost:8000/integration/login.html)
 
-If you start working on the assignment before we have the lecture about SCSS, you can write plain CSS
-in the `style.scss` file, because SCSS is an extension of the features of CSS, plain CSS is valid. After
-we do the lecture on SCSS you can refactor your stylesheet.
+### Step 4: Compile SCSS to CSS
 
-I setup the `.gitignore` file so that you can't commit
-the CSS file `output.css`. That's because the CSS is a product of the compilation chain. If your 
-SCSS source is correct, the CSS will be recompiled by users checking out the repository.
+SCSS needs to be compiled into CSS for the website to display correctly. You can do this manually with the following command:
 
-#### Tip for refreshing the browser cache
+```bash
+sass integration/style.scss integration/assets/stylesheets/output.css
+```
 
-Sometimes it can happen that you edit your stylesheets, but after refreshing the webpage in your browser
-you don't see the changes. That's because your browser keeps the stylesheet in cache, and won't always
-reload it even if it has changed. To force the browser to reload your stylesheet, you can use
-the shorcut `MAJ + F5` in Chrome/Linux. If that doesn't work check the documentation for you browser/OS,
-they have different shortcuts.
+Alternatively, you can automate this process by using the `compile_css.sh` script:
 
-### The login form
+```bash
+./compile_css.sh
+```
 
-You can work on this part of the assignment after the lecture on HTML forms.
+The script will monitor changes to `style.scss` and recompile the CSS file automatically.
 
+### Step 5: Clean Up
 
-You need to make sure that the login form sends the correct data to the server (see spec below). 
-If the data is correct, you will see a page that says ("Congrats, you succeeded to submit the correct data"). Otherwise you will get an error page. (For this result, you need to use the small python server I have provided you).
+To remove the generated files (such as `output.css`), use the `clean` target from the `Makefile`:
 
-This is the specification for the login form to work : 
+```bash
+make clean
+```
 
-The login form must send a `POST` request to the url `/register`, with the following data:
+---
 
-- `username=admin@domain.com`
-- `password=rainbow`
+## Makefile Breakdown
 
-### Login Form validation UX Feedback
+The `Makefile` automates common tasks related to this project, such as dependency installation, compiling SCSS, and running the server. Here's an overview of the key targets in the `Makefile`:
 
-You have 2 additional mockup files `login_mockup_input_focus.png` and `login_mockup_input_invalid.png`
-that show you the look of user feedback when focusing the fields.
+### Targets
 
-Conditions for fields to be valid :
+#### `all`
 
-- Both fields are required. An empty field is invalid.
-- The email field should have a value which is a valid email address format. If it has another value,
-  it is invalid.
+This is the default target. Running `make` or `make all` will:
 
-UX feedback :
-- When the field are not in focus, they have a gray border
-- When a field is in focus, and has an invalid value, it has a red border
-- When a field is in focus, and has a valid value, it has a green border
+1. Install dependencies.
+2. Compile SCSS to CSS.
+3. Start the server.
 
-You should not be able to submit the form if the values are invalid.
+```bash
+make all
+```
 
-### Additionnal info
+#### `dependencies`
 
-- The "buttons" at the top are links. Set the `href` attribute to any URL, even invalid, if the link is
-  toward a page we won't implement (ex : `href="./404"`)
-- You will need to search how to make rounded borders for the buttons at the top. See the CSS property `border-radius`
-- The example was taken from a real website "Musicca", however you will lose more time trying to copy their code rather than writing it yourself. The goal of this exercise is to write HTML and SCSS code by yourself, and try to solve the problem of integrating a mockup, in the most straightforward way. Existing code you may find online is going to be bloated, overly complicated, because the real life scenario is more complex than the one I gave you. It's easy for me to see if you wrote your own code or tried to copy it from their website, please don't cheat.
+Installs all required dependencies by running the `setup_dependencies.sh` script:
 
+```bash
+make dependencies
+```
 
+#### `css`
+
+Compiles SCSS into CSS. This target uses the `sass` command to convert `style.scss` into `output.css`:
+
+```bash
+make css
+```
+
+#### `compile`
+
+Runs the `compile_css.sh` script to compile SCSS into CSS. This script continuously watches for changes to the `style.scss` file and recompiles it:
+
+```bash
+make compile
+```
+
+#### `server`
+
+Starts the Python HTTP server to serve the web pages:
+
+```bash
+make server
+```
+
+#### `clean`
+
+Cleans up the generated files, such as `output.css`, by removing them:
+
+```bash
+make clean
+```
+
+---
+
+## Git Version Management
+
+This project uses Git for version control. Some important Git commands include:
+
+### Commit Changes
+
+After making changes to your code, commit them with a message describing the changes:
+
+```bash
+git commit -m "Descriptive commit message"
+```
+
+### Push to Remote Repository
+
+Push the committed changes to the remote repository:
+
+```bash
+git push origin main
+```
+
+### Create and Merge Branches
+
+To work on a new feature or bug fix, create a new branch:
+
+```bash
+git checkout -b new-feature
+```
+
+After making changes, merge the branch back into the main branch:
+
+```bash
+git checkout main
+git merge new-feature
+```
+
+### Tagging Versions
+
+Tag a specific version of your project with a Git tag:
+
+```bash
+git tag -a v1.0.0 -m "Initial release"
+git push origin v1.0.0
+```
+
+---
+
+## Running the Project
+
+To run the project and access the web pages:
+
+1. **Start the server**:
+
+   ```bash
+   make server
+   ```
+
+2. **Access the pages**:
+
+   Navigate to the following URLs in your browser:
+   - `http://localhost:8000/integration/about.html`
+   - `http://localhost:8000/integration/login.html`
+
+3. **Clean up**:
+
+   Remove generated files like `output.css` with:
+
+   ```bash
+   make clean
+   ```
+
+---
+
+## Conclusion
+
+This project showcases a clean and efficient development workflow by automating common tasks such as dependency management, SCSS compilation, and server execution using `Makefile`. With Python as the backend, Sass for styling, and automation tools like `Makefile`, this project provides a solid foundation for web development and demonstrates best practices in modern web tooling.
+
+By following the setup instructions and using the automation tools, you can quickly and easily get the project up and running.
