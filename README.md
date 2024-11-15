@@ -1,7 +1,3 @@
-Voici une version mise à jour du **README.md**, en tenant compte de la suppression de la cible `watch` et en apportant quelques améliorations supplémentaires pour rendre le document encore plus clair et complet :
-
----
-
 # Project README
 
 ## Overview
