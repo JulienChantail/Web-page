@@ -1,0 +1,188 @@
+@charset "UTF-8";
+body {
+  background-color: #ebebeb;
+  /* Focus en vert */
+  /* Bordure rouge si l'email est invalide */
+  font-family: "Open Sans", sans-serif;
+}
+body header {
+  background-color: white;
+}
+body .a {
+  grid-area: a;
+  background-color: white;
+}
+body .b {
+  grid-area: b;
+  background-color: white;
+}
+body .main-grid {
+  display: grid;
+  grid-template-rows: 75px auto;
+  grid-template-columns: auto 1070px auto;
+  grid-template-areas: "a bande b" ". content ."; /* Le point (.) représente les espaces vides */
+  box-sizing: border-box;
+}
+body .main-grid2 {
+  display: grid;
+  grid-template-rows: 75px auto;
+  grid-template-columns: auto 250px 570px 250px auto;
+  grid-template-areas: "a bande bande bande b" ". . content2 . ."; /* Le point (.) représente les espaces vides */
+}
+body .content {
+  grid-area: content;
+  box-sizing: border-box;
+  width: 1070px;
+}
+body .colonne {
+  display: grid;
+  width: 1070px;
+  grid-template-columns: 256px 768px;
+}
+body .colonne2 {
+  display: grid;
+  grid-template-columns: 389px 389px;
+  gap: 20px;
+}
+body .ligne {
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 20% 80%;
+  gap: 20px;
+}
+body .ligne2 {
+  dispay: grid;
+  grid-template-rows: 80px 280px;
+  gap: 20px;
+}
+body .ligne3 {
+  dispay: grid;
+  grid-template-rows: 80px 80px 80px;
+  gap: 50px;
+}
+body .bloc {
+  padding-left: 30px;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  width: 360px;
+  background-color: white;
+}
+body .image {
+  width: 390px;
+}
+body .ImMus {
+  width: 180px;
+  height: auto;
+  justify-self: start;
+}
+body .title {
+  padding-top: 50px;
+  padding-left: 50px;
+  font-size: 36px;
+  color: #1b1b1b;
+}
+body .title2 {
+  font-size: 20px;
+}
+body .title3 {
+  font-size: 32px;
+}
+body .bande {
+  grid-area: bande;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  width: 100%;
+}
+body .nav {
+  font-size: 14px;
+  display: flex;
+  margin-left: 20px;
+}
+body .button1 {
+  background-color: #72ac51;
+  color: white;
+  padding: 10px 15px; /* Espacement à l'intérieur de l'élément */
+  border-radius: 50px; /* Pour créer un effet d'ovale */
+  margin: 0 10px; /* Espacement entre les boutons */
+  text-align: center; /* Centre le texte dans le bouton */
+}
+body .button1:hover {
+  background-color: #47752d;
+}
+body .button2 {
+  padding: 10px 15px;
+  border-radius: 50px;
+  margin: 0 10px;
+  text-align: center;
+}
+body .button2:hover {
+  background-color: #eee;
+}
+body .button3 {
+  width: 480px;
+  height: 42px;
+  color: white;
+  font-size: 14px;
+  background-color: #72ac51;
+  border-radius: 50px;
+  text-align: center;
+}
+body .button3:hover {
+  background-color: #47752d;
+}
+body .sidebar {
+  width: 230px;
+  font-size: 18px;
+  display: grid;
+  grid-template-rows: 75px 75px 75px;
+  margin-top: 20px;
+}
+body .sidebar div {
+  margin: 0; /* Supprime les marges entre les éléments */
+  padding: 10px;
+  background-color: white;
+  line-height: 50px;
+}
+body .sidebar div:hover {
+  background-color: green; /* Effet au survol */
+  color: white;
+}
+body .connection {
+  display: flex;
+  margin-left: auto; /* Pousse les éléments vers la droite */
+}
+body .blocLogIn {
+  grid-area: content2;
+  box-sizing: border-box;
+  width: 570px;
+  background-color: white;
+  margin: 20px auto; /* Centrage horizontal */
+  padding-top: 67px;
+  padding-left: 60px;
+  padding-bottom: 60px;
+}
+body input {
+  width: 450px;
+  height: 45px;
+  font-size: 16px;
+  margin: 10px 0;
+  border: 1px solid #ccc; /*bordures en gris clair*/
+}
+body input:focus {
+  outline: 2px solid green;
+}
+body input:invalid {
+  outline: 2px solid red;
+}
+
+a {
+  /*
+      Getting rid of default formatting for <a> elements. `inherits` tells that
+      `a` elements should use the value set on its parent for these properties.
+  */
+  text-decoration: inherit;
+  color: inherit;
+}
+
+/*# sourceMappingURL=output.css.map */
