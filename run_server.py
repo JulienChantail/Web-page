@@ -1,15 +1,36 @@
 #!/usr/bin/env python3
 """
-Very simple HTTP server in python for logging requests
-Usage::
-    ./server.py [<port>]
+Enhanced HTTP server with structured logging.
 """
-from http.server import BaseHTTPRequestHandler, HTTPServer, SimpleHTTPRequestHandler
+
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 import logging
 from urllib.parse import parse_qs
 import re
 
+def setup_logging():
+    """
+    Configure logging to separate access logs and error logs.
+    """
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler("access.log"),
+            logging.StreamHandler()
+        ]
+    )
+
+    error_handler = logging.FileHandler("error.log")
+    error_handler.setLevel(logging.ERROR)
+    error_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+    logging.getLogger().addHandler(error_handler)
+
 def safeget(dct, *keys):
+    """
+    Safely retrieves a nested value from a dictionary using the provided keys.
+    Returns None if any key is missing.
+    """
     for key in keys:
         try:
             dct = dct[key]
@@ -17,59 +38,78 @@ def safeget(dct, *keys):
             return None
     return dct
 
+class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
+    """
+    Custom HTTP request handler with enhanced logging.
+    """
 
-class S(SimpleHTTPRequestHandler):
-    def _set_response(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+    def _set_response(self, code=200, content_type='text/html'):
+        """
+        Sets the HTTP response headers.
+        """
+        self.send_response(code)
+        self.send_header('Content-type', content_type)
         self.end_headers()
 
-    def do_GET(self):
-        logging.info("GET request,\nPath: %s\nHeaders:\n%s\n", str(self.path), str(self.headers))
-        super().do_GET()
+    def log_request_details(self):
+        """
+        Logs details of the incoming request.
+        """
+        logging.info(
+            "Processing request: Method=%s, Path=%s, Headers=%s",
+            self.command, self.path, self.headers
+        )
 
     def do_POST(self):
-        content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
-        post_data = self.rfile.read(content_length) # <--- Gets the data itself
-        logging.info("POST request,\nPath: %s\nHeaders:\n%s\n\nBody:\n%s\n",
-                str(self.path), str(self.headers), post_data.decode('utf-8'))
+        """
+        Handles POST requests with detailed logging.
+        """
+        self.log_request_details()
+        try:
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_data = self.rfile.read(content_length).decode('utf-8')
+            post_data_fields = parse_qs(post_data)
 
-        post_data_fields = parse_qs(post_data.decode('utf-8'))
+            logging.debug("POST data received: %s", post_data_fields)
 
+            self._set_response()
 
-        self._set_response()
+            if (re.match("^/register", self.path) and
+                safeget(post_data_fields, "username", 0) == "admin@domain.com" and
+                safeget(post_data_fields, "password", 0) == "rainbow"):
+                response = "<h1>Congrats, you succeeded to submit the correct data</h1>"
+                logging.info("Successful registration for user admin@domain.com")
+            else:
+                response = f"""
+                    <h1>Error: Bad Request</h1>
+                    POST request for {self.path}<br>Body: {post_data}
+                """
+                logging.warning("Failed registration attempt for path: %s", self.path)
 
-        if (re.match("^\/register", self.path) and
-            safeget(post_data_fields, "username", 0) == "admin@domain.com" and
-            safeget(post_data_fields, "password", 0) == "rainbow") :
-            self.wfile.write("""
-                <h1>Congrats, you succeeded to submit the correct data</h1>
-            """.format(self.path, post_data.decode('utf-8')).encode('utf-8'))
-        else:
-            self.wfile.write("""
-                <h1>Error : Bad Request</h1>
-                
-                POST request for {}<br>
-                Body : <br>
-                {}
-            """.format(self.path, post_data.decode('utf-8')).encode('utf-8'))
+            self.wfile.write(response.encode('utf-8'))
 
-def run(server_class=HTTPServer, handler_class=S, port=8000):
-    logging.basicConfig(level=logging.INFO)
+        except Exception as e:
+            logging.error("POST request failed: %s", str(e), exc_info=True)
+            self._set_response(500)
+            self.wfile.write(b"Internal Server Error")
+
+def run(server_class=HTTPServer, handler_class=CustomHTTPRequestHandler, port=8000):
+    """
+    Starts the HTTP server.
+    """
+    setup_logging()
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    logging.info('Starting httpd...\n')
+    logging.info("Starting HTTP server on port %d", port)
+
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
-        pass
-    httpd.server_close()
-    logging.info('Stopping httpd...\n')
+        logging.info("Shutting down the server.")
+        httpd.server_close()
 
 if __name__ == '__main__':
     from sys import argv
 
-    if len(argv) == 2:
-        run(port=int(argv[1]))
-    else:
-        run()
+    port = int(argv[1]) if len(argv) == 2 else 8000
+    run(port=port)

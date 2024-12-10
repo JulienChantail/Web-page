@@ -5,3 +5,5 @@ mockups/*.odg
 
 *.swp
 *.swo
+access.log
+error.log

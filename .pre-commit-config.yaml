@@ -1,0 +1,22 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0  # Utilisez la dernière version stable
+    hooks:
+      - id: check-added-large-files
+      - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      - id: pylint
+        name: Pylint
+        entry: pylint
+        language: system
+        types: [python]
+        files: ^.*\.py$
+
+      - id: htmlhint
+        name: HTMLHint
+        entry: htmlhint
+        language: system
+        types: [text]
+        files: ^.*\.html$
