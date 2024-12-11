@@ -254,6 +254,10 @@ To run the project and access the web pages:
 
 ---
 
+Licence
+Ce projet est sous licence Apache License 2.0. Cela signifie que vous êtes libre d'utiliser, de modifier et de distribuer ce projet, à condition de respecter les termes de la licence. Pour plus de détails, consultez le fichier LICENSE.
+
+
 ## Conclusion
 
 This project showcases a clean and efficient development workflow by automating common tasks such as dependency management, SCSS compilation, and server execution using `Makefile`. With Python as the backend, Sass for styling, and automation tools like `Makefile`, this project provides a solid foundation for web development and demonstrates best practices in modern web tooling.
