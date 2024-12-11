@@ -38,5 +38,5 @@ Font weights used: 400 (normal) and 600 (semi bold).
 
 - The right panel takes 3/4 of the available main content space.
 - Each card in the right panel takes 50% of the space available (accounting for the gutter width).
-- You can set a fixed height to the cards, given the text fits in 2 lines. It's not the ideal 
+- You can set a fixed height to the cards, given the text fits in 2 lines. It's not the ideal
   solution but it will be easier in the context of this assignment.

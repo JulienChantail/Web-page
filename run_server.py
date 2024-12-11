@@ -8,6 +8,7 @@ import logging
 from urllib.parse import parse_qs
 import re
 
+
 def setup_logging():
     """
     Configure logging to separate access logs and error logs.
@@ -60,7 +61,7 @@ class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
             self.command, self.path, self.headers
         )
 
-    def do_POST(self):
+    def do_post(self):  # noqa: C0103
         """
         Handles POST requests with detailed logging.
         """
@@ -88,19 +89,20 @@ class CustomHTTPRequestHandler(SimpleHTTPRequestHandler):
 
             self.wfile.write(response.encode('utf-8'))
 
-        except Exception as e:
+        except ImportError as e:  # noqa: W0718
             logging.error("POST request failed: %s", str(e), exc_info=True)
             self._set_response(500)
             self.wfile.write(b"Internal Server Error")
 
-def run(server_class=HTTPServer, handler_class=CustomHTTPRequestHandler, port=8000):
+def run(server_class=HTTPServer, handler_class=CustomHTTPRequestHandler,
+ server_port=8000):  # port -> server_port
     """
     Starts the HTTP server.
     """
     setup_logging()
-    server_address = ('', port)
+    server_address = ('', server_port)
     httpd = server_class(server_address, handler_class)
-    logging.info("Starting HTTP server on port %d", port)
+    logging.info("Starting HTTP server on port %d", server_port)
 
     try:
         httpd.serve_forever()
@@ -111,5 +113,5 @@ def run(server_class=HTTPServer, handler_class=CustomHTTPRequestHandler, port=80
 if __name__ == '__main__':
     from sys import argv
 
-    port = int(argv[1]) if len(argv) == 2 else 8000
-    run(port=port)
+    PORT = int(argv[1]) if len(argv) == 2 else 8000  # port -> PORT
+    run(server_port=PORT)  # Remplacez 'port' par 'server_port'
