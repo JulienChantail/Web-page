@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0  # Utilisez la dernière version stable
+    rev: v4.4.0  # Utilise la dernière version stable
     hooks:
       - id: check-added-large-files
       - id: trailing-whitespace
