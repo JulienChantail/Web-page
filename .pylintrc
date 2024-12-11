@@ -5,7 +5,7 @@
 # only in one or another interpreter, leading to false positives when analysed.
 analyse-fallback-blocks=no
 
-# Clear in-memory caches upon conclusion of linting. Useful if running pylint
+# Clear in-memory cache upon conclusion of linting. Useful if running pylint
 # in a server-like mode.
 clear-cache-post-run=no
 
