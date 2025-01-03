@@ -1,0 +1,49 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Déclencheur sur les tags version (par exemple v1.0.0)
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout du code
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Installer les dépendances (par exemple, si vous utilisez Python)
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    # Exécution des tests
+    - name: Run tests
+      run: |
+        pytest
+
+    # Générer le changelog
+    - name: Generate Changelog
+      run: |
+        git fetch --tags
+        LAST_TAG=$(git describe --tags --abbrev=0)
+        changelog=$(git log $LAST_TAG..HEAD --oneline)
+        echo "$changelog" > CHANGELOG.md
+
+    # Créer la release GitHub avec les artefacts et changelog
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          dist/*
+          CHANGELOG.md
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
